@@ -1,0 +1,16 @@
+{
+  "name": "challenge2",
+  "version": "1.0.0",
+  "description": "Webcrawler written in Javascript",
+  "main": "crawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cheerio": "^0.22.0",
+    "request": "^2.81.0",
+    "url-parse": "^1.1.8"
+  }
+}
