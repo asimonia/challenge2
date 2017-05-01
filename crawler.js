@@ -8,6 +8,7 @@ var pagesToVisit = [];
 var url = "";
 var baseUrl = "";
 var urlHost = "";
+var urlHistory = {};
 
 // get references to elements in DOM
 var weburl = document.getElementById("weburl");
@@ -83,8 +84,11 @@ function collectInternalLinks($) {
     });
 
     // These are the Remote URLs
-    console.log("Found " + remoteUrls.length + " remote URLs on " + baseUrl);
+    alert("Found " + remoteUrls.length + " remote URLs on " + baseUrl);
 
+    // Add remote URL history to keep track of remote URLs found
+    urlHistory[baseUrl] = remoteUrls.length
+    
     // Push Remote links onto the pagesToVisit stack
     remoteUrls.forEach( (link) => {
       pagesToVisit.push(link);
