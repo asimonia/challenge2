@@ -4,11 +4,10 @@ var cheerio = require('cheerio');
 var URL = require('url-parse');
 
 var START_URL = "";
-var MAX_PAGES_TO_VISIT = 100;
-
 var pagesVisited = {};
-var numPagesVisited = 0;
 var pagesToVisit = [];
+var url = "";
+var baseUrl = "";
 
 // get references to elements in DOM
 var weburl = document.getElementById("weburl");
@@ -20,24 +19,20 @@ var converted = document.getElementById("converted");
 start.addEventListener("click", startScript);
 clear.addEventListener("click", clearInput);
 
-function startScript() {
-  START_URL = weburl.value;
-  weburl.value = "";
-  let url = new URL(START_URL);
-  var baseUrl = url.protocol + "//" + url.hostname;
-  pagesToVisit.push(START_URL);
-  crawl();  
-}
-
 function clearInput() {
   weburl.value = "";
 }
 
+function startScript() {
+  START_URL = weburl.value;
+  weburl.value = "";
+  let url = new URL(START_URL);
+  let baseUrl = url.protocol + "//" + url.hostname;
+  pagesToVisit.push(START_URL);
+  crawl();  
+}
+
 function crawl() {
-  if(numPagesVisited >= MAX_PAGES_TO_VISIT) {
-    console.log("Reached max limit of number of pages to visit.");
-    return;
-  }
   var nextPage = pagesToVisit.pop();
   if (nextPage in pagesVisited) {
     // We've already visited this page, so repeat the crawl
@@ -51,7 +46,6 @@ function crawl() {
 function visitPage(url, callback) {
   // Add page to our set
   pagesVisited[url] = true;
-  numPagesVisited++;
 
   // Make the request
   console.log("Visiting page " + url);
@@ -76,8 +70,8 @@ function collectInternalLinks($) {
     console.log("Found " + absoluteLinks.length + " absolute links on page");
     absoluteLinks.each(function() {
         pagesToVisit.push(baseUrl + $(this).attr('href'));
-        console.log(pagesToVisit);
     });
+    console.log(pagesToVisit);
 }
 },{"cheerio":56,"request":185,"url-parse":233}],2:[function(require,module,exports){
 'use strict';
