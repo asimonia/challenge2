@@ -26,8 +26,8 @@ function clearInput() {
 function startScript() {
   START_URL = weburl.value;
   weburl.value = "";
-  let url = new URL(START_URL);
-  let baseUrl = url.protocol + "//" + url.hostname;
+  url = new URL(START_URL);
+  baseUrl = url.protocol + "//" + url.hostname;
   pagesToVisit.push(START_URL);
   crawl();  
 }
@@ -69,7 +69,7 @@ function collectInternalLinks($) {
     var absoluteLinks = $("a[href^='http']");
     console.log("Found " + absoluteLinks.length + " absolute links on page");
     absoluteLinks.each(function() {
-        pagesToVisit.push(baseUrl + $(this).attr('href'));
+        pagesToVisit.push($(this).attr('href'));
     });
     console.log(pagesToVisit);
 }
