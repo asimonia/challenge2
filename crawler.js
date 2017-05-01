@@ -7,6 +7,7 @@ var pagesVisited = {};
 var pagesToVisit = [];
 var url = "";
 var baseUrl = "";
+var urlHost = "";
 
 // get references to elements in DOM
 var weburl = document.getElementById("weburl");
@@ -27,6 +28,7 @@ function startScript() {
   weburl.value = "";
   url = new URL(START_URL);
   baseUrl = url.protocol + "//" + url.hostname;
+  urlHost = url.hostname;
   pagesToVisit.push(START_URL);
   crawl();  
 }
@@ -66,9 +68,25 @@ function visitPage(url, callback) {
 
 function collectInternalLinks($) {
     var absoluteLinks = $("a[href^='http']");
-    console.log("Found " + absoluteLinks.length + " absolute links on page");
+    var allPages = [];
+
+    // Collect ALL urls
     absoluteLinks.each(function() {
-        pagesToVisit.push($(this).attr('href'));
+        allPages.push($(this).attr('href'));
     });
-    console.log(pagesToVisit);
+
+    // Filter out urls that are not Host to get Remote
+    remoteUrls = allPages.filter( (link) => {
+      foundUrl = new URL(link);
+      foundHost = foundUrl.hostname;
+      return urlHost !== foundHost;
+    });
+
+    // These are the Remote URLs
+    console.log("Found " + remoteUrls.length + " remote URLs on " + baseUrl);
+
+    // Push Remote links onto the pagesToVisit stack
+    remoteUrls.forEach( (link) => {
+      pagesToVisit.push(link);
+    });
 }
