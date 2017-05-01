@@ -14,16 +14,9 @@ var urlHistory = {};
 // get references to elements in DOM
 var weburl = document.getElementById("weburl");
 var start = document.getElementById("start");
-var stop = document.getElementById("stop");
-var clear = document.getElementById("clear");
 var converted = document.getElementById("converted");
 
 start.addEventListener("click", startScript);
-clear.addEventListener("click", clearInput);
-
-function clearInput() {
-  weburl.value = "";
-}
 
 function startScript() {
   START_URL = weburl.value;
@@ -90,7 +83,6 @@ function collectInternalLinks($) {
     // Add remote URL history to keep track of remote URLs found
     urlHistory[baseUrl] = remoteUrls.length
     
-    console.log(urlHistory);
     // Push Remote links onto the pagesToVisit stack
     remoteUrls.forEach( (link) => {
       pagesToVisit.push(link);
