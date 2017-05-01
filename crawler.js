@@ -2,17 +2,35 @@ var request = require('request');
 var cheerio = require('cheerio');
 var URL = require('url-parse');
 
-var START_URL = "http://www.complex.com/pop-culture/2011/09/25-video-game-sites-you-should-be-following/kotaku";
+var START_URL = "";
 var MAX_PAGES_TO_VISIT = 100;
 
 var pagesVisited = {};
 var numPagesVisited = 0;
 var pagesToVisit = [];
-var url = new URL(START_URL);
-var baseUrl = url.protocol + "//" + url.hostname;
 
-pagesToVisit.push(START_URL);
-crawl();
+// get references to elements in DOM
+var weburl = document.getElementById("weburl");
+var start = document.getElementById("start");
+var stop = document.getElementById("stop");
+var clear = document.getElementById("clear");
+var converted = document.getElementById("converted");
+
+start.addEventListener("click", startScript);
+clear.addEventListener("click", clearInput);
+
+function startScript() {
+  START_URL = weburl.value;
+  weburl.value = "";
+  let url = new URL(START_URL);
+  var baseUrl = url.protocol + "//" + url.hostname;
+  pagesToVisit.push(START_URL);
+  crawl();  
+}
+
+function clearInput() {
+  weburl.value = "";
+}
 
 function crawl() {
   if(numPagesVisited >= MAX_PAGES_TO_VISIT) {
