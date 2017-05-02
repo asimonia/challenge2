@@ -54,14 +54,14 @@ function visitPage(url, callback) {
      }
      // Parse the document body
      var $ = cheerio.load(body);
-     collectInternalLinks($);
-	     
+     collectInternalLinks($, url);
+	   
      callback();
 
   });
 }
 
-function collectInternalLinks($) {
+function collectInternalLinks($, url) {
     var absoluteLinks = $("a[href^='http']");
     var allPages = [];
 
@@ -78,10 +78,11 @@ function collectInternalLinks($) {
     });
 
     // These are the Remote URLs
-    alert("Found " + remoteUrls.length + " remote URLs on " + baseUrl);
+    var hostname = new URL(url);
+    alert("Found " + remoteUrls.length + " remote URLs on " + hostname.hostname);
 
     // Add remote URL history to keep track of remote URLs found
-    urlHistory.push({[baseUrl]: remoteUrls.length})
+    urlHistory.push({[hostname.hostname]: remoteUrls.length})
 
     // Generate table for URL History
     generate_table(urlHistory);
