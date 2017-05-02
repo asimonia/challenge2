@@ -9,7 +9,7 @@ var pagesToVisit = [];
 var url = "";
 var baseUrl = "";
 var urlHost = "";
-var urlHistory = {};
+var urlHistory = [];
 
 // get references to elements in DOM
 var weburl = document.getElementById("weburl");
@@ -81,12 +81,49 @@ function collectInternalLinks($) {
     alert("Found " + remoteUrls.length + " remote URLs on " + baseUrl);
 
     // Add remote URL history to keep track of remote URLs found
-    urlHistory[baseUrl] = remoteUrls.length
+    urlHistory.push({[baseUrl]: remoteUrls.length})
+
+    // Generate table for URL History
+    generate_table(urlHistory);
     
     // Push Remote links onto the pagesToVisit stack
     remoteUrls.forEach( (link) => {
       pagesToVisit.push(link);
     });
+}
+
+function generate_table(urlHistory) {
+  console.log(urlHistory);
+ 
+  // creates a <table> element and a <tbody> element
+  var tbl = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+ 
+  // creating all cells
+  for (var i = 0; i < 2; i++) {
+    // creates a table row
+    var row = document.createElement("tr");
+ 
+    for (var j = 0; j < 2; j++) {
+      // Create a <td> element and a text node, make the text
+      // node the contents of the <td>, and put the <td> at
+      // the end of the table row
+      var cell = document.createElement("td");
+      var cellText = document.createTextNode("cell in row "+i+", column "+j);
+      cell.appendChild(cellText);
+      row.appendChild(cell);
+    }
+ 
+    // add the row to the end of the table body
+    tblBody.appendChild(row);
+  }
+ 
+  // put the <tbody> in the <table>
+  tbl.appendChild(tblBody);
+  // appends <table> into <body>
+  converted.appendChild(tbl);
+  // sets the border attribute of tbl to 2;
+  tbl.setAttribute("border", "2");
 }
 },{"cheerio":56,"request":185,"url-parse":233}],2:[function(require,module,exports){
 'use strict';
