@@ -9,15 +9,35 @@ var url = "";                       // current URL
 var baseUrl = "";                   // current URL from URL(url)
 var urlHost = "";                   // current URL host
 var urlHistory = [];                // tracks Found x remote URLs on Domain.com
+var running = false;
+var begin = false;
 
 // get references to elements in DOM
 var weburl = document.getElementById("weburl");
 var start = document.getElementById("start");
 var results = document.getElementById("results");
-var alerts = document.getElementById('alerts');
+var alerts = document.getElementById("alerts");
 
-start.addEventListener("click", startScript);
-results.addEventListener("click", generateTable);
+start.addEventListener("click", startStop);
+
+function startStop() {
+  if (!begin && !running) {
+    begin = true;
+    running = true;
+    start.innerHTML = "Stop";
+    startScript();
+  } else if (begin && running) {
+    running = false;
+    start.innerHTML = "Resume";
+    generateTable();
+    crawl();
+  } else {
+    running = true;
+    start.innerHTML = "Stop";
+    generateTable();
+    crawl();
+  }
+}
 
 function startScript() {
   var START_URL = weburl.value;
@@ -30,6 +50,9 @@ function startScript() {
 }
 
 function crawl() {
+  if (!running) {
+    return;
+  }
   var nextPage = pagesToVisit.pop();
   nextPageUrl = new URL(nextPage);
   if (nextPageUrl.hostname in pagesVisited) {
