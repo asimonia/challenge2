@@ -14,6 +14,7 @@ var urlHistory = [];                // tracks Found x remote URLs on Domain.com
 var weburl = document.getElementById("weburl");
 var start = document.getElementById("start");
 var results = document.getElementById("results");
+var alerts = document.getElementById('alerts');
 
 start.addEventListener("click", startScript);
 results.addEventListener("click", generateTable);
@@ -81,7 +82,7 @@ function collectInternalLinks($, url) {
 
     // These are the Remote URLs
     var hostname = new URL(url);
-    alert("Found " + remoteUrls.length + " remote URLs on " + hostname.hostname);
+    alerts.innerHTML += `Found ${remoteUrls.length} remote URLs on ${hostname.hostname}\n`;
 
     // Add remote URL history to keep track of remote URLs found
     urlHistory.push({
