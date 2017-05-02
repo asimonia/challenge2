@@ -97,6 +97,10 @@ function collectInternalLinks($, url) {
 }
 
 function generateTable() {
+  urlHistory.sort(function(a, b) {
+    return parseInt(b.value) - parseInt(a.value);
+  });
+
   var tbody = document.getElementById('tbody');
   tbody.innerHTML = "";
   for (var i = 0; i < Object.keys(urlHistory).length; i++) {
