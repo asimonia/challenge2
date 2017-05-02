@@ -14,8 +14,15 @@
 	<h2>You call, we crawl!</h2>
 	<input id ="weburl" name="weburl"><br>
 	<button id="start">Start/Stop/Resume</button>
+	<button id="results">Generate Results</button>
 	<p>Results</p>
-	<div id="converted"></div>
+	<table>
+		<tr>
+			<th>Remote URL</th>
+			<th># Links Found</th>
+		</tr>
+		<tbody id="tbody"></tbody>
+	</table>
 	<script src="./bundle.js"></script>
 </body>
 </html>
